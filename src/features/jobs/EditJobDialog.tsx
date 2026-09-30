@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { X } from "lucide-react";
 import { updateJob } from "@/api/jobs";
@@ -13,6 +13,7 @@ const employmentTypes: EmploymentType[] = ["FULL_TIME", "PART_TIME", "CONTRACT",
 const jobStatuses: JobStatus[] = ["DRAFT", "OPEN", "CLOSED"];
 
 export function EditJobDialog({ job, onClose }: EditJobDialogProps) {
+  const [editedJobId, setEditedJobId] = useState<number | null>(null);
   const [form, setForm] = useState({
     title: "",
     minSalary: "",
@@ -22,17 +23,16 @@ export function EditJobDialog({ job, onClose }: EditJobDialogProps) {
   });
   const queryClient = useQueryClient();
 
-  useEffect(() => {
-    if (job) {
-      setForm({
-        title: job.title,
-        minSalary: job.minSalary?.toString() ?? "",
-        maxSalary: job.maxSalary?.toString() ?? "",
-        employmentType: job.employmentType ?? "FULL_TIME",
-        status: job.status,
-      });
-    }
-  }, [job]);
+  if (job && job.id !== editedJobId) {
+    setEditedJobId(job.id);
+    setForm({
+      title: job.title,
+      minSalary: job.minSalary?.toString() ?? "",
+      maxSalary: job.maxSalary?.toString() ?? "",
+      employmentType: job.employmentType ?? "FULL_TIME",
+      status: job.status,
+    });
+  }
 
   const mutation = useMutation({
     mutationFn: () =>

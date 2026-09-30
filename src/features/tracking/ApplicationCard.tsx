@@ -22,7 +22,6 @@ export function ApplicationCard({
     listeners,
     setNodeRef,
     transform,
-    transition,
     isDragging,
   } = useDraggable({
     id: `card-${application.id}`,
@@ -38,7 +37,7 @@ export function ApplicationCard({
     ? undefined
     : {
         transform: CSS.Translate.toString(transform),
-        transition: isDragging ? "none" : transition,
+        transition: isDragging ? "none" : "transform 200ms ease",
       };
 
   return (

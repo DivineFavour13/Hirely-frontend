@@ -1,3 +1,11 @@
+export type ApplicationStatus =
+  | "APPLIED"
+  | "SCREENING"
+  | "INTERVIEW"
+  | "OFFERED"
+  | "REJECTED"
+  | "HIRED";
+
 export interface Application {
   id: number;
   status: ApplicationStatus;

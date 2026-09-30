@@ -4,6 +4,7 @@ import { FileText, Mail, Phone, Plus, SearchX, Users } from "lucide-react";
 import { getApplicants } from "@/api/applicants";
 import { PageHeader } from "@/components/shared/PageHeader";
 import { CreateApplicantDialog } from "./CreateApplicantDialog";
+import { useAuth } from "@/context/AuthContext";
 import { LoadingState } from "@/components/shared/LoadingState";
 import { ErrorState } from "@/components/shared/ErrorState";
 import { Avatar } from "@/components/hirely/Avatar";
@@ -16,6 +17,8 @@ import type { Applicant } from "@/types/applicant";
 export function ApplicantsPage() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [search, setSearch] = useState("");
+  const { user } = useAuth();
+  const canCreate = user?.role === "ADMIN" || user?.role === "COMPANY_REP";
 
   const { data: applicants, isLoading, isError, refetch } = useQuery({
     queryKey: ["applicants"],
@@ -35,10 +38,12 @@ export function ApplicantsPage() {
         subtitle="Everyone who's applied through Hirely."
         count={applicants?.length}
         action={
-          <button onClick={() => setDialogOpen(true)} className={btnPrimary}>
-            <Plus className="h-4 w-4" />
-            Add applicant
-          </button>
+          canCreate && (
+            <button onClick={() => setDialogOpen(true)} className={btnPrimary}>
+              <Plus className="h-4 w-4" />
+              Add applicant
+            </button>
+          )
         }
       />
 
