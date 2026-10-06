@@ -8,6 +8,7 @@ import type { Role } from "@/types/auth";
 const roleOptions: { value: Role; label: string; hint: string }[] = [
   { value: "APPLICANT", label: "Applicant", hint: "Browse jobs and track your applications" },
   { value: "COMPANY_REP", label: "Company rep", hint: "Post jobs and manage candidates" },
+  { value: "ADMIN", label: "Admin", hint: "Full access to the system" },
 ];
 
 export function RegisterPage() {
